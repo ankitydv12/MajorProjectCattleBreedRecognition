@@ -77,7 +77,7 @@ function AboutPage() {
                     <h3>{t('about.creator_title')}</h3>
                     <p>
                         {t('about.creator_source')}
-                        <a href="https://github.com/sajit9285/cattle-breed-classifier-webapp" target="_blank" rel="noreferrer">
+                        <a href="https://github.com/ankitydv12/MajorProjectCattleBreedRecognition" target="_blank" rel="noreferrer">
                             GitHub
                         </a>.
                     </p>
