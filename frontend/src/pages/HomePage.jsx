@@ -1,19 +1,21 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function HomePage() {
+    const { t } = useTranslation();
+
     return (
         <div className="page">
             <section className="hero">
                 <h1>
-                    Identify Your <span className="accent">Cattle Breed</span> in Seconds
+                    {t('home.title')}
                 </h1>
                 <p>
-                    AI-powered breed classification for 26 indigenous Indian cattle and buffalo breeds.
-                    Upload a photo, point your camera, or paste a URL — get instant results.
+                    {t('home.subtitle')}
                 </p>
                 <Link to="/predict">
                     <button className="hero-cta">
-                        🔍 Start Classifying
+                        🔍 {t('home.cta')}
                     </button>
                 </Link>
 
@@ -28,33 +30,33 @@ function HomePage() {
             <section className="features-grid">
                 <div className="card feature-card">
                     <div className="feature-icon">📸</div>
-                    <h3>Multiple Input Modes</h3>
-                    <p>Upload images, capture from camera, or paste a URL. Works on any device with a browser.</p>
+                    <h3>{t('home.feature4_title')}</h3>
+                    <p>{t('home.feature4_desc')}</p>
                 </div>
                 <div className="card feature-card">
                     <div className="feature-icon">🧠</div>
-                    <h3>Deep Learning Models</h3>
-                    <p>Trained and compared 4 architectures — MLP, CNN, ResNet50, and Vision Transformer — to find the best.</p>
+                    <h3>{t('home.feature3_title')}</h3>
+                    <p>{t('home.feature3_desc')}</p>
                 </div>
                 <div className="card feature-card">
                     <div className="feature-icon">📋</div>
-                    <h3>Breed Information</h3>
-                    <p>Get detailed metadata: region, milk yield, lifespan, primary use, and physical characteristics.</p>
+                    <h3>{t('home.feature5_title')}</h3>
+                    <p>{t('home.feature5_desc')}</p>
                 </div>
                 <div className="card feature-card">
                     <div className="feature-icon">🌾</div>
-                    <h3>Farmer-Friendly</h3>
-                    <p>Designed for real-world use. Clear confidence indicators, image quality tips, and easy navigation.</p>
+                    <h3>{t('home.feature6_title')}</h3>
+                    <p>{t('home.feature6_desc')}</p>
                 </div>
                 <div className="card feature-card">
                     <div className="feature-icon">⚡</div>
-                    <h3>Fast & Reliable</h3>
-                    <p>Sub-second predictions with confidence scores. Know when to trust the result.</p>
+                    <h3>{t('home.feature1_title')}</h3>
+                    <p>{t('home.feature1_desc')}</p>
                 </div>
                 <div className="card feature-card">
                     <div className="feature-icon">🐃</div>
-                    <h3>26 Breeds</h3>
-                    <p>Covers major indigenous cow and buffalo breeds from across India with verified metadata.</p>
+                    <h3>{t('home.feature2_title')}</h3>
+                    <p>{t('home.feature2_desc')}</p>
                 </div>
             </section>
         </div>
