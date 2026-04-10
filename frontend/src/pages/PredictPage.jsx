@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next';
 import { useState, useRef, useCallback } from 'react';
 import { predictFromFile, predictFromURL, predictFromBase64 } from '../services/api';
 import { usePredictionHistory } from '../hooks/usePredictionHistory';
 
 function PredictPage() {
+  const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState('upload');
     const [imagePreview, setImagePreview] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
@@ -194,7 +196,7 @@ function PredictPage() {
                     {/* URL tab */}
                     {activeTab === 'url' && (
                         <>
-                            <label style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>Image URL</label>
+                            <label style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>{t('predict.image_url')}</label>
                             <div className="url-input-group">
                                 <input
                                     type="url"
@@ -260,7 +262,7 @@ function PredictPage() {
                             {/* Confidence bar */}
                             <div className="confidence-bar-container">
                                 <div className="confidence-bar-label">
-                                    <span>Confidence</span>
+                                    <span>{t('predict.confidence')}</span>
                                     <span>{(result.confidence * 100).toFixed(1)}%</span>
                                 </div>
                                 <div className="confidence-bar">
@@ -272,7 +274,7 @@ function PredictPage() {
                             {result.top_k && result.top_k.length > 1 && (
                                 <div className="topk-list">
                                     <h4 style={{ fontSize: '0.9rem', marginBottom: '0.5rem', color: 'var(--color-text-secondary)' }}>
-                                        Top Predictions
+                                        {t('predict.top_prediction')}s
                                     </h4>
                                     {result.top_k.map((item, idx) => (
                                         <div className="topk-item" key={idx}>
@@ -292,7 +294,7 @@ function PredictPage() {
                                     </h4>
                                     <div className="breed-info-grid">
                                         <div className="breed-info-item">
-                                            <div className="breed-info-label">Region</div>
+                                            <div className="breed-info-label">{t('predict.region')}</div>
                                             <div className="breed-info-value">{result.breed_info.region}</div>
                                         </div>
                                         <div className="breed-info-item">
@@ -300,15 +302,15 @@ function PredictPage() {
                                             <div className="breed-info-value">{result.breed_info.animal_type}</div>
                                         </div>
                                         <div className="breed-info-item">
-                                            <div className="breed-info-label">Milk Yield</div>
-                                            <div className="breed-info-value">{result.breed_info.avg_milk_liters_per_day} L/day</div>
+                                            <div className="breed-info-label">{t('predict.milk_yield')}</div>
+                                            <div className="breed-info-value">{result.breed_info.avg_milk_liters_per_day} {t('predict.milk_unit')}</div>
                                         </div>
                                         <div className="breed-info-item">
-                                            <div className="breed-info-label">Lifespan</div>
-                                            <div className="breed-info-value">{result.breed_info.lifespan_years} years</div>
+                                            <div className="breed-info-label">{t('predict.lifespan')}</div>
+                                            <div className="breed-info-value">{result.breed_info.lifespan_years} {t('predict.lifespan_unit')}</div>
                                         </div>
                                         <div className="breed-info-item">
-                                            <div className="breed-info-label">Primary Use</div>
+                                            <div className="breed-info-label">{t('predict.primary_use')}</div>
                                             <div className="breed-info-value">{result.breed_info.primary_use}</div>
                                         </div>
                                         <div className="breed-info-item">
@@ -336,7 +338,7 @@ function PredictPage() {
                     {/* History */}
                     {!result && !loading && history.length > 0 && (
                         <div className="glass-card">
-                            <h4 style={{ marginBottom: '1rem', color: 'var(--color-text-secondary)' }}>Recent Predictions</h4>
+                            <h4 style={{ marginBottom: '1rem', color: 'var(--color-text-secondary)' }}>{t('predict.recent_predictions')}</h4>
                             {history.slice(0, 5).map((entry) => (
                                 <div key={entry.id} className="topk-item">
                                     <span className="topk-name">{entry.predictedBreed}</span>

@@ -1,4 +1,9 @@
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import './i18n';
+import LanguageSelectionPage from './LanguageSelectionPage';
+import LanguageSwitcher from './LanguageSwitcher';
 import HomePage from './pages/HomePage';
 import PredictPage from './pages/PredictPage';
 import BreedExplorerPage from './pages/BreedExplorerPage';
@@ -6,6 +11,29 @@ import AboutPage from './pages/AboutPage';
 import './App.css';
 
 function App() {
+  const { t, i18n } = useTranslation();
+  const [showLangSelection, setShowLangSelection] = useState(!localStorage.getItem('hasSelectedLanguage'));
+
+  useEffect(() => {
+    const hasSelected = localStorage.getItem('hasSelectedLanguage');
+    if (!hasSelected) {
+      setShowLangSelection(true);
+    } else {
+      // Restore language specific settings
+      const lang = i18n.language || 'en';
+      const rtlLanguages = ['ur', 'ks', 'sd'];
+      if (rtlLanguages.includes(lang)) {
+        document.documentElement.dir = 'rtl';
+        document.body.classList.add('rtl');
+      }
+      document.body.classList.add(`lang-${lang}`);
+    }
+  }, [i18n.language]);
+
+  if (showLangSelection) {
+    return <LanguageSelectionPage onLanguageSelected={() => setShowLangSelection(false)} />;
+  }
+
   return (
     <Router>
       <nav className="navbar">
@@ -14,11 +42,12 @@ function App() {
             🐄 <span>CattleAI</span>
           </NavLink>
           <ul className="nav-links">
-            <li><NavLink to="/" end>Home</NavLink></li>
-            <li><NavLink to="/predict">Predict</NavLink></li>
-            <li><NavLink to="/breeds">Breeds</NavLink></li>
-            <li><NavLink to="/about">About</NavLink></li>
+            <li><NavLink to="/" end>{t('nav.home')}</NavLink></li>
+            <li><NavLink to="/predict">{t('nav.predict')}</NavLink></li>
+            <li><NavLink to="/breeds">{t('nav.breeds')}</NavLink></li>
+            <li><NavLink to="/about">{t('nav.about')}</NavLink></li>
           </ul>
+          <LanguageSwitcher />
         </div>
       </nav>
 

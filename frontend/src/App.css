@@ -1,1 +1,83 @@
-/* Minimal App-level overrides (global styles in index.css) */
+/* Minimal App-level overrides (global styles in index.css) *//* Add RTL support */
+body.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+body.rtl .navbar {
+  flex-direction: row;
+}
+
+body.rtl .nav-links {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+body.rtl .language-switcher {
+  margin-left: 0;
+  margin-right: 1rem;
+}
+
+body.rtl .predict-grid,
+body.rtl .about-grid {
+  direction: rtl;
+}
+
+body.rtl .breed-card-detail {
+  flex-direction: row;
+}
+
+/* Fallback for components that might break */
+body.rtl .prediction-item {
+  text-align: right;
+}
+
+body.rtl .stat-card {
+  text-align: right;
+}
+
+body.rtl .stat-icon {
+  margin-right: 0;
+  margin-left: 1rem;
+}
+
+/* Specific language fonts */
+body.lang-hi, body.lang-mr, body.lang-ne, body.lang-kok, body.lang-dgo {
+  font-family: 'Noto Sans Devanagari', 'Inter', sans-serif;
+}
+
+body.lang-bn, body.lang-as, body.lang-mni {
+  font-family: 'Noto Sans Bengali', 'Inter', sans-serif;
+}
+
+body.lang-te {
+  font-family: 'Noto Sans Telugu', 'Inter', sans-serif;
+}
+
+body.lang-ta {
+  font-family: 'Noto Sans Tamil', 'Inter', sans-serif;
+}
+
+body.lang-gu {
+  font-family: 'Noto Sans Gujarati', 'Inter', sans-serif;
+}
+
+body.lang-kn {
+  font-family: 'Noto Sans Kannada', 'Inter', sans-serif;
+}
+
+body.lang-ml {
+  font-family: 'Noto Sans Malayalam', 'Inter', sans-serif;
+}
+
+body.lang-pa {
+  font-family: 'Noto Sans Gurmukhi', 'Inter', sans-serif;
+}
+
+body.lang-or {
+  font-family: 'Noto Sans Oriya', 'Inter', sans-serif;
+}
+
+body.lang-ur, body.lang-ks, body.lang-sd {
+  font-family: 'Noto Nastaliq Urdu', 'Inter', serif;
+}

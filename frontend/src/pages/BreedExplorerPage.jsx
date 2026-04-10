@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 import { getBreeds } from '../services/api';
 
@@ -32,6 +33,7 @@ const STATIC_BREEDS = [
 ];
 
 function BreedExplorerPage() {
+  const { t } = useTranslation();
     const [breeds, setBreeds] = useState(STATIC_BREEDS);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterType, setFilterType] = useState('');
@@ -59,7 +61,7 @@ function BreedExplorerPage() {
 
     return (
         <div className="page">
-            <h2 className="section-title">Breed Explorer</h2>
+            <h2 className="section-title">{t('breeds.title')}</h2>
             <p className="section-subtitle">Browse all 26 indigenous Indian cattle and buffalo breeds.</p>
 
             <div className="breed-filters">
@@ -71,14 +73,14 @@ function BreedExplorerPage() {
                     style={{ flex: 1, minWidth: '200px' }}
                 />
                 <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
-                    <option value="">All Types</option>
-                    <option value="Cow">🐄 Cow</option>
-                    <option value="Buffalo">🐃 Buffalo</option>
+                    <option value="">{t('breeds.all_types')}</option>
+                    <option value="Cow">🐄 {t('breeds.cow')}</option>
+                    <option value="Buffalo">🐃 {t('breeds.buffalo')}</option>
                 </select>
             </div>
 
             <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', marginBottom: '1rem' }}>
-                Showing {filtered.length} of {breeds.length} breeds
+                {t('breeds.showing', { filtered: filtered.length, total: breeds.length })}
             </p>
 
             <div className="breeds-grid">
@@ -93,23 +95,23 @@ function BreedExplorerPage() {
                             </span>
                         </div>
                         <div className="breed-card-detail">
-                            <span className="label">Region</span>
+                            <span className="label">{t('predict.region')}</span>
                             <span className="value">{breed.region}</span>
                         </div>
                         <div className="breed-card-detail">
-                            <span className="label">Primary Use</span>
+                            <span className="label">{t('predict.primary_use')}</span>
                             <span className="value">{breed.primary_use}</span>
                         </div>
                         {breed.avg_milk_liters_per_day && (
                             <div className="breed-card-detail">
-                                <span className="label">Milk Yield</span>
-                                <span className="value">{breed.avg_milk_liters_per_day} L/day</span>
+                                <span className="label">{t('predict.milk_yield')}</span>
+                                <span className="value">{breed.avg_milk_liters_per_day} {t('predict.milk_unit')}</span>
                             </div>
                         )}
                         {breed.lifespan_years && (
                             <div className="breed-card-detail">
-                                <span className="label">Lifespan</span>
-                                <span className="value">{breed.lifespan_years} years</span>
+                                <span className="label">{t('predict.lifespan')}</span>
+                                <span className="value">{breed.lifespan_years} {t('predict.lifespan_unit')}</span>
                             </div>
                         )}
                         {breed.description && (
