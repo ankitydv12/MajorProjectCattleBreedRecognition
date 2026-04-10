@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import BreedTabs from '../components/BreedTabs';
 import { useState, useRef, useCallback } from 'react';
 import { predictFromFile, predictFromURL, predictFromBase64 } from '../services/api';
 import { usePredictionHistory } from '../hooks/usePredictionHistory';
@@ -12,6 +13,7 @@ function PredictPage() {
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
+    const [showDetails, setShowDetails] = useState(false);
     const [dragOver, setDragOver] = useState(false);
     const [cameraActive, setCameraActive] = useState(false);
 
@@ -322,6 +324,20 @@ function PredictPage() {
                                         <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: 'var(--color-text-secondary)', lineHeight: '1.6' }}>
                                             {result.breed_info.description}
                                         </p>
+                                    )}
+
+                                    <button
+                                        className="btn-secondary"
+                                        style={{ marginTop: '1.5rem', width: '100%' }}
+                                        onClick={() => setShowDetails(!showDetails)}
+                                    >
+                                        {showDetails ? 'Hide Detailed Profile' : 'ℹ️ Detailed Breed Profile (Diet, Health)'}
+                                    </button>
+
+                                    {showDetails && (
+                                        <div style={{ marginTop: '1rem' }}>
+                                            <BreedTabs breedBasicInfo={result.breed_info} breedName={result.predicted_breed} defaultTab="profile" />
+                                        </div>
                                     )}
                                 </>
                             )}

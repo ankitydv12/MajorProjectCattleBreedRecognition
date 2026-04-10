@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import BreedTabs from '../components/BreedTabs';
 import { useState, useEffect } from 'react';
 import { getBreeds } from '../services/api';
 
@@ -61,13 +62,17 @@ function BreedExplorerPage() {
 
     return (
         <div className="page">
-            <h2 className="section-title">{t('breeds.title')}</h2>
-            <p className="section-subtitle">Browse all 26 indigenous Indian cattle and buffalo breeds.</p>
+            <div className="breed-explorer-header">
+                <h2 className="section-title">{t('breeds.title')}</h2>
+                <p className="section-subtitle">
+                    {t('breeds.subtitle')}
+                </p>
+            </div>
 
             <div className="breed-filters">
                 <input
                     type="text"
-                    placeholder="🔍 Search breeds..."
+                    placeholder={t('breeds.search')}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     style={{ flex: 1, minWidth: '200px' }}
@@ -85,9 +90,7 @@ function BreedExplorerPage() {
 
             <div className="breeds-grid">
                 {filtered.map((breed) => (
-                    <div className="card" key={breed.breed_id}
-                        onClick={() => setExpandedBreed(expandedBreed === breed.breed_id ? null : breed.breed_id)}
-                        style={{ cursor: 'pointer' }}>
+                    <div className="card" key={breed.breed_id}>
                         <div className="breed-card-header">
                             <span className="breed-card-name">{breed.breed_name}</span>
                             <span className={`breed-type-badge ${breed.animal_type.toLowerCase()}`}>
@@ -115,14 +118,33 @@ function BreedExplorerPage() {
                             </div>
                         )}
                         {breed.description && (
-                            <p className={`breed-card-description ${expandedBreed === breed.breed_id ? '' : ''}`}
-                                style={expandedBreed === breed.breed_id ? { WebkitLineClamp: 'unset' } : {}}>
+                            <p className="breed-card-description">
                                 {breed.description}
                             </p>
                         )}
+                        <button
+                            className="btn-secondary"
+                            style={{ marginTop: '1rem', width: '100%', fontSize: '0.85rem', padding: '8px' }}
+                            onClick={() => setExpandedBreed(breed.breed_id)}
+                        >
+                            ℹ️ Detailed Info
+                        </button>
                     </div>
                 ))}
             </div>
+
+            {expandedBreed && (
+                <div className="modal-overlay" onClick={() => setExpandedBreed(null)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <button className="modal-close" onClick={() => setExpandedBreed(null)}>✕</button>
+                        <BreedTabs
+                            breedBasicInfo={breeds.find(b => b.breed_id === expandedBreed)}
+                            breedName={breeds.find(b => b.breed_id === expandedBreed)?.breed_name}
+                            defaultTab="profile"
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

@@ -72,3 +72,9 @@ export async function getVersion() {
   const response = await fetch(`${API_BASE_URL}/version`);
   return response.json();
 }
+
+export async function getBreedFullDetails(breedName) {
+  const response = await fetch(`${API_BASE_URL}/breeds/${encodeURIComponent(breedName)}/full`);
+  if (!response.ok) throw new Error('Breed details not found');
+  return response.json();
+}

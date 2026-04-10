@@ -1,0 +1,361 @@
+.breed-tabs-container {
+  margin-top: 1.5rem;
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.breed-tabs-header {
+  display: flex;
+  background: var(--color-bg-nav);
+  border-bottom: 1px solid var(--color-border);
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+}
+.breed-tabs-header::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.tab-btn {
+  flex: 1;
+  min-width: 140px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 14px 16px;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--color-text-primary);
+}
+
+.tab-btn.active {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+  background: rgba(217, 119, 6, 0.05);
+}
+
+.breed-tab-content {
+  padding: 1.5rem;
+  min-height: 250px;
+}
+
+.tab-loading, .tab-error {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--color-text-muted);
+}
+.tab-error { color: var(--color-error); }
+
+/* Slide up animation */
+.slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================
+   Tab 2: Breed Profile
+========================================= */
+.profile-desc {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.profile-stats {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.stat-box {
+  flex: 1;
+  min-width: 140px;
+  display: flex;
+  align-items: center;
+  background: var(--color-bg-card);
+  padding: 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.stat-box .stat-icon {
+  font-size: 1.5rem;
+  margin-right: 12px;
+}
+
+.stat-box .stat-label {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.stat-box .stat-val {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  color: var(--color-text-primary);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.traits-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.trait-chip {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--color-success);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.conservation-badge {
+  background: var(--color-bg-nav);
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  display: inline-block;
+  font-size: 0.9rem;
+}
+
+/* =========================================
+   Tab 3: Diet & Nutrition
+========================================= */
+.diet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.diet-card {
+  background: var(--color-bg-card);
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.diet-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.diet-card.requirements li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.9rem;
+}
+.diet-card.requirements li:last-child { border-bottom: none; }
+.diet-card.requirements li span { color: var(--color-text-secondary); }
+
+.bullet-list li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+.bullet-list li::before {
+  content: '•';
+  color: var(--color-accent);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.timeline {
+  border-left: 2px solid var(--color-border);
+  padding-left: 1rem;
+}
+.timeline li {
+  position: relative;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+.timeline li::before {
+  content: '';
+  position: absolute;
+  left: -21px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  background: var(--color-accent);
+  border-radius: 50%;
+}
+
+.diet-card.warning-card {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.05);
+}
+.warning-text { color: var(--color-error); }
+
+.special-notes {
+  margin-top: 1.5rem;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-info);
+}
+
+/* =========================================
+   Tab 4: Health & Diseases
+========================================= */
+.diseases-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.disease-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.disease-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.02);
+  transition: background 0.2s;
+  list-style: none; /* removes native arrow in many browsers */
+}
+.disease-header::-webkit-details-marker { display: none; }
+.disease-header:hover { background: rgba(255, 255, 255, 0.05); }
+
+.disease-title h5 {
+  font-size: 1.1rem;
+  margin: 0 0 4px 0;
+  color: var(--color-text-primary);
+}
+.disease-type {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.disease-badges {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.badge.contagious { background: rgba(139, 92, 246, 0.15); color: #a78bfa; }
+.badge.severity-critical { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid #ef4444; }
+.badge.severity-high { background: rgba(249, 115, 22, 0.15); color: #fb923c; }
+.badge.severity-medium { background: rgba(234, 179, 8, 0.15); color: #facc15; }
+.badge.severity-low { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+
+.disease-body {
+  padding: 0 1.25rem 1.25rem 1.25rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.critical-warning {
+  margin-top: 1rem;
+  padding: 10px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-sm);
+  color: #fca5a5;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.disease-section {
+  margin-top: 1.25rem;
+}
+.disease-section h6 {
+  font-size: 0.95rem;
+  color: var(--color-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.check-list, .num-list {
+  padding-left: 20px;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+.check-list { list-style-type: none; padding-left: 0; }
+.check-list li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 6px;
+}
+.check-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--color-error); /* red check for symptoms */
+}
+.num-list { padding-left: 1.2rem; }
+.num-list li { margin-bottom: 6px; }
+
+/* Body RTL Support adjustments via global classes applied to parent */
+body.rtl .tab-btn {
+  border-left: none;
+}
+body.rtl .stat-box .stat-icon {
+  margin-right: 0;
+  margin-left: 12px;
+}
+body.rtl .bullet-list li, body.rtl .check-list li {
+  padding-left: 0;
+  padding-right: 22px;
+}
+body.rtl .bullet-list li::before, body.rtl .check-list li::before {
+  left: auto;
+  right: 0;
+}
+body.rtl .timeline {
+  border-left: none;
+  border-right: 2px solid var(--color-border);
+  padding-left: 0;
+  padding-right: 1rem;
+}
+body.rtl .timeline li::before {
+  left: auto;
+  right: -21px;
+}
