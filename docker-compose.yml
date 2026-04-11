@@ -2,6 +2,20 @@
 # Run: docker-compose up --build
 version: "3.9"
 services:
+  db:
+    image: postgres:15
+    container_name: cattle-db
+    environment:
+      - POSTGRES_DB=cattledb
+      - POSTGRES_USER=cattleuser
+      - POSTGRES_PASSWORD=cattlepass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
   backend:
     build:
       context: .
@@ -15,6 +29,9 @@ services:
       - CLASSES_PATH=/app/models/classes.txt
       - MODEL_NAME=resnet
       - MODEL_VERSION=v2.0
+      - DATABASE_URL=postgresql://cattleuser:cattlepass@db:5432/cattledb
+    depends_on:
+      - db
     volumes:
       - ./models:/app/models
       - ./data:/app/data
@@ -36,3 +53,6 @@ services:
     depends_on:
       - backend
     restart: unless-stopped
+
+volumes:
+  postgres_data:
