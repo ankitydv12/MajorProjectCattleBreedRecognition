@@ -4,11 +4,16 @@ GET /breeds       - List all breeds
 GET /breeds/{name} - Get breed details
 """
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, Depends
 from typing import Optional
 
 from backend.app.schemas.breed import BreedDetail, BreedListItem, BreedsListResponse
 from backend.app.services.breed_info import breed_info_service
+from backend.app.database import get_db
+from backend.app.services.breed_details import (
+    get_breed_summary, get_breed_diet,
+    get_breed_diseases, get_breed_full
+)
 
 router = APIRouter(prefix="/breeds", tags=["Breeds"])
 
@@ -55,3 +60,26 @@ async def get_breed(breed_name: str):
             raise HTTPException(status_code=404, detail=f"Breed not found: {breed_name}")
 
     return BreedDetail(**info)
+
+
+@router.get("/{breed_name}/summary")
+def breed_summary(breed_name: str, db=Depends(get_db)):
+    data = get_breed_summary(db, breed_name)
+    if not data:
+        raise HTTPException(status_code=404, detail="Breed not found")
+    return data
+
+@router.get("/{breed_name}/diet")
+def breed_diet(breed_name: str, db=Depends(get_db)):
+    data = get_breed_diet(db, breed_name)
+    if not data:
+        raise HTTPException(status_code=404, detail="Breed not found")
+    return data
+
+@router.get("/{breed_name}/diseases")
+def breed_diseases(breed_name: str, db=Depends(get_db)):
+    return get_breed_diseases(db, breed_name)
+
+@router.get("/{breed_name}/full")
+def breed_full(breed_name: str, db=Depends(get_db)):
+    return get_breed_full(db, breed_name)
