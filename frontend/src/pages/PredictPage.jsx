@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useState, useRef, useCallback } from 'react';
-import { predictFromFile, predictFromURL, predictFromBase64 } from '../services/api';
+import { predictFromFile, predictFromURL, predictFromBase64, getBreedFull } from '../services/api';
 import { usePredictionHistory } from '../hooks/usePredictionHistory';
 
 function PredictPage() {
@@ -14,6 +14,26 @@ function PredictPage() {
     const [error, setError] = useState(null);
     const [dragOver, setDragOver] = useState(false);
     const [cameraActive, setCameraActive] = useState(false);
+
+    const [fullBreedInfo, setFullBreedInfo] = useState(null);
+    const [infoLoading, setInfoLoading] = useState(false);
+    const [infoError, setInfoError] = useState(null);
+    const [infoTab, setInfoTab] = useState('overview'); // overview, profile, diet, diseases
+    const [expandedDisease, setExpandedDisease] = useState(null);
+
+    const fetchFullInfo = async (breedName) => {
+        setInfoLoading(true);
+        setInfoError(null);
+        try {
+            const data = await getBreedFull(breedName);
+            setFullBreedInfo(data);
+        } catch (err) {
+            setInfoError('Details not available');
+        } finally {
+            setInfoLoading(false);
+        }
+    };
+
 
     const fileInputRef = useRef(null);
     const videoRef = useRef(null);
@@ -89,6 +109,9 @@ function PredictPage() {
         setImagePreview(null);
         setSelectedFile(null);
         setResult(null);
+        setFullBreedInfo(null);
+        setInfoError(null);
+        setInfoTab('overview');
         setError(null);
         if (fileInputRef.current) fileInputRef.current.value = '';
     };
@@ -98,6 +121,9 @@ function PredictPage() {
         setLoading(true);
         setError(null);
         setResult(null);
+        setFullBreedInfo(null);
+        setInfoError(null);
+        setInfoTab('overview');
 
         try {
             let response;
@@ -112,8 +138,13 @@ function PredictPage() {
                 setLoading(false);
                 return;
             }
+
             setResult(response);
             addPrediction(response, imagePreview);
+            if (response.predicted_breed) {
+                fetchFullInfo(response.predicted_breed);
+            }
+
         } catch (err) {
             setError(err.message || 'Prediction failed');
         } finally {
@@ -286,44 +317,246 @@ function PredictPage() {
                                 </div>
                             )}
 
+
                             {/* Breed info */}
                             {result.breed_info && (
-                                <>
-                                    <h4 style={{ fontSize: '0.9rem', marginBottom: '0.75rem', color: 'var(--color-text-secondary)' }}>
-                                        Breed Details
-                                    </h4>
-                                    <div className="breed-info-grid">
-                                        <div className="breed-info-item">
-                                            <div className="breed-info-label">{t('predict.region')}</div>
-                                            <div className="breed-info-value">{result.breed_info.region}</div>
-                                        </div>
-                                        <div className="breed-info-item">
-                                            <div className="breed-info-label">Type</div>
-                                            <div className="breed-info-value">{result.breed_info.animal_type}</div>
-                                        </div>
-                                        <div className="breed-info-item">
-                                            <div className="breed-info-label">{t('predict.milk_yield')}</div>
-                                            <div className="breed-info-value">{result.breed_info.avg_milk_liters_per_day} {t('predict.milk_unit')}</div>
-                                        </div>
-                                        <div className="breed-info-item">
-                                            <div className="breed-info-label">{t('predict.lifespan')}</div>
-                                            <div className="breed-info-value">{result.breed_info.lifespan_years} {t('predict.lifespan_unit')}</div>
-                                        </div>
-                                        <div className="breed-info-item">
-                                            <div className="breed-info-label">{t('predict.primary_use')}</div>
-                                            <div className="breed-info-value">{result.breed_info.primary_use}</div>
-                                        </div>
-                                        <div className="breed-info-item">
-                                            <div className="breed-info-label">Inference</div>
-                                            <div className="breed-info-value">{result.inference_time_ms} ms</div>
-                                        </div>
+                                <div style={{ marginTop: '1.5rem' }}>
+                                    {/* Tabs */}
+                                    <div style={{ display: 'flex', borderBottom: '1px solid var(--color-border)', marginBottom: '1rem', overflowX: 'auto', gap: '1rem' }}>
+                                        <button
+                                            style={{ background: 'none', border: 'none', padding: '0.5rem 0', fontWeight: 600, color: infoTab === 'overview' ? '#d97706' : 'var(--color-text-secondary)', borderBottom: infoTab === 'overview' ? '2px solid #d97706' : '2px solid transparent', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                                            onClick={() => setInfoTab('overview')}
+                                        >
+                                            📋 Overview
+                                        </button>
+                                        <button
+                                            style={{ background: 'none', border: 'none', padding: '0.5rem 0', fontWeight: 600, color: infoTab === 'profile' ? '#d97706' : 'var(--color-text-secondary)', borderBottom: infoTab === 'profile' ? '2px solid #d97706' : '2px solid transparent', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                                            onClick={() => setInfoTab('profile')}
+                                        >
+                                            🐄 Breed Profile
+                                        </button>
+                                        <button
+                                            style={{ background: 'none', border: 'none', padding: '0.5rem 0', fontWeight: 600, color: infoTab === 'diet' ? '#d97706' : 'var(--color-text-secondary)', borderBottom: infoTab === 'diet' ? '2px solid #d97706' : '2px solid transparent', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                                            onClick={() => setInfoTab('diet')}
+                                        >
+                                            🌾 Diet & Nutrition
+                                        </button>
+                                        <button
+                                            style={{ background: 'none', border: 'none', padding: '0.5rem 0', fontWeight: 600, color: infoTab === 'diseases' ? '#d97706' : 'var(--color-text-secondary)', borderBottom: infoTab === 'diseases' ? '2px solid #d97706' : '2px solid transparent', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                                            onClick={() => setInfoTab('diseases')}
+                                        >
+                                            🏥 Diseases
+                                        </button>
                                     </div>
-                                    {result.breed_info.description && (
-                                        <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: 'var(--color-text-secondary)', lineHeight: '1.6' }}>
-                                            {result.breed_info.description}
-                                        </p>
-                                    )}
-                                </>
+
+                                    {/* Content Area */}
+                                    <div style={{ background: '#fff', borderRadius: 'var(--radius-md)', padding: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+                                        {infoTab === 'overview' && (
+                                            <>
+                                                <div className="breed-info-grid">
+                                                    <div className="breed-info-item">
+                                                        <div className="breed-info-label">{t('predict.region')}</div>
+                                                        <div className="breed-info-value">{result.breed_info.region}</div>
+                                                    </div>
+                                                    <div className="breed-info-item">
+                                                        <div className="breed-info-label">Type</div>
+                                                        <div className="breed-info-value">{result.breed_info.animal_type}</div>
+                                                    </div>
+                                                    <div className="breed-info-item">
+                                                        <div className="breed-info-label">{t('predict.milk_yield')}</div>
+                                                        <div className="breed-info-value">{result.breed_info.avg_milk_liters_per_day} {t('predict.milk_unit')}</div>
+                                                    </div>
+                                                    <div className="breed-info-item">
+                                                        <div className="breed-info-label">{t('predict.lifespan')}</div>
+                                                        <div className="breed-info-value">{result.breed_info.lifespan_years} {t('predict.lifespan_unit')}</div>
+                                                    </div>
+                                                    <div className="breed-info-item">
+                                                        <div className="breed-info-label">{t('predict.primary_use')}</div>
+                                                        <div className="breed-info-value">{result.breed_info.primary_use}</div>
+                                                    </div>
+                                                    <div className="breed-info-item">
+                                                        <div className="breed-info-label">Inference</div>
+                                                        <div className="breed-info-value">{result.inference_time_ms} ms</div>
+                                                    </div>
+                                                </div>
+                                                {result.breed_info.description && (
+                                                    <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: 'var(--color-text-secondary)', lineHeight: '1.6' }}>
+                                                        {result.breed_info.description}
+                                                    </p>
+                                                )}
+                                            </>
+                                        )}
+
+                                        {infoTab !== 'overview' && infoLoading && (
+                                            <div style={{ textAlign: 'center', padding: '2rem 0' }}>
+                                                <div className="spinner" style={{ margin: '0 auto', width: '24px', height: '24px', borderTopColor: '#d97706' }} />
+                                                <p style={{ color: 'var(--color-text-secondary)', marginTop: '0.5rem', fontSize: '0.9rem' }}>Loading details...</p>
+                                            </div>
+                                        )}
+
+                                        {infoTab !== 'overview' && !infoLoading && infoError && (
+                                            <div style={{ textAlign: 'center', padding: '2rem 0', color: 'var(--color-text-secondary)' }}>
+                                                <p>Details not available</p>
+                                            </div>
+                                        )}
+
+                                        {infoTab === 'profile' && !infoLoading && fullBreedInfo && fullBreedInfo.profile && (
+                                            <div>
+                                                <p style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', lineHeight: '1.6', marginBottom: '1rem' }}>
+                                                    {fullBreedInfo.profile.physical_description}
+                                                </p>
+
+                                                {fullBreedInfo.profile.special_traits && fullBreedInfo.profile.special_traits.length > 0 && (
+                                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '1.5rem' }}>
+                                                        {fullBreedInfo.profile.special_traits.map((trait, idx) => (
+                                                            <span key={idx} style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#059669', padding: '4px 10px', borderRadius: '12px', fontSize: '0.8rem', fontWeight: 500 }}>
+                                                                {trait}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                )}
+
+                                                <div className="breed-info-grid">
+                                                    <div className="breed-info-item">
+                                                        <div className="breed-info-label">Male Weight</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.profile.avg_weight_male_kg} kg</div>
+                                                    </div>
+                                                    <div className="breed-info-item">
+                                                        <div className="breed-info-label">Female Weight</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.profile.avg_weight_female_kg} kg</div>
+                                                    </div>
+                                                    <div className="breed-info-item">
+                                                        <div className="breed-info-label">Height</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.profile.avg_height_cm} cm</div>
+                                                    </div>
+                                                    <div className="breed-info-item">
+                                                        <div className="breed-info-label">Population</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.profile.estimated_population}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {infoTab === 'diet' && !infoLoading && fullBreedInfo && fullBreedInfo.diet && (
+                                            <div>
+                                                <div className="breed-info-grid" style={{ marginBottom: '1.5rem' }}>
+                                                    <div className="breed-info-item">
+                                                        <div className="breed-info-label">Dry Fodder</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.diet.dry_fodder_kg_per_day} kg/day</div>
+                                                    </div>
+                                                    <div className="breed-info-item">
+                                                        <div className="breed-info-label">Green Fodder</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.diet.green_fodder_kg_per_day} kg/day</div>
+                                                    </div>
+                                                    <div className="breed-info-item">
+                                                        <div className="breed-info-label">Concentrate</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.diet.concentrate_kg_per_day} kg/day</div>
+                                                    </div>
+                                                    <div className="breed-info-item">
+                                                        <div className="breed-info-label">Water</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.diet.water_liters_per_day} L/day</div>
+                                                    </div>
+                                                </div>
+
+                                                <div style={{ marginBottom: '1rem' }}>
+                                                    <h5 style={{ fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--color-text-muted)', marginBottom: '0.5rem' }}>Recommended Fodder</h5>
+                                                    <ul style={{ paddingLeft: '1.2rem', margin: 0, fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>
+                                                        {fullBreedInfo.diet.recommended_fodder && fullBreedInfo.diet.recommended_fodder.map((item, idx) => (
+                                                            <li key={idx} style={{ marginBottom: '4px' }}>{item}</li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+
+                                                <div style={{ marginBottom: '1.5rem' }}>
+                                                    <h5 style={{ fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--color-text-muted)', marginBottom: '0.5rem' }}>Feeding Schedule</h5>
+                                                    <div style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', background: 'var(--color-bg-primary)', padding: '10px', borderRadius: 'var(--radius-sm)' }}>
+                                                        <div style={{ marginBottom: '4px' }}><strong>Morning:</strong> {fullBreedInfo.diet.feeding_schedule_morning}</div>
+                                                        <div style={{ marginBottom: '4px' }}><strong>Afternoon:</strong> {fullBreedInfo.diet.feeding_schedule_afternoon}</div>
+                                                        <div><strong>Evening:</strong> {fullBreedInfo.diet.feeding_schedule_evening}</div>
+                                                    </div>
+                                                </div>
+
+                                                {fullBreedInfo.diet.foods_to_avoid && fullBreedInfo.diet.foods_to_avoid.length > 0 && (
+                                                    <div style={{ background: 'rgba(239, 68, 68, 0.1)', borderLeft: '4px solid #ef4444', padding: '10px', borderRadius: '4px' }}>
+                                                        <h5 style={{ fontSize: '0.85rem', color: '#b91c1c', marginBottom: '0.5rem', marginTop: 0 }}>⚠️ Foods to Avoid</h5>
+                                                        <ul style={{ paddingLeft: '1.2rem', margin: 0, fontSize: '0.85rem', color: '#991b1b' }}>
+                                                            {fullBreedInfo.diet.foods_to_avoid.map((item, idx) => (
+                                                                <li key={idx} style={{ marginBottom: '2px' }}>{item}</li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+
+                                        {infoTab === 'diseases' && !infoLoading && fullBreedInfo && fullBreedInfo.diseases && (
+                                            <div>
+                                                {fullBreedInfo.diseases.map((disease, idx) => {
+                                                    const isExpanded = expandedDisease === idx;
+                                                    let severityColor = '#10b981'; // low
+                                                    let severityBg = 'rgba(16, 185, 129, 0.15)';
+                                                    if (disease.severity === 'Critical') { severityColor = '#ef4444'; severityBg = 'rgba(239, 68, 68, 0.15)'; }
+                                                    else if (disease.severity === 'High') { severityColor = '#f97316'; severityBg = 'rgba(249, 115, 22, 0.15)'; }
+                                                    else if (disease.severity === 'Medium') { severityColor = '#f59e0b'; severityBg = 'rgba(245, 158, 11, 0.15)'; }
+
+                                                    return (
+                                                        <div key={idx} style={{ marginBottom: '10px', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
+                                                            <div
+                                                                onClick={() => setExpandedDisease(isExpanded ? null : idx)}
+                                                                style={{ padding: '12px', background: 'var(--color-bg-primary)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}
+                                                            >
+                                                                <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>{disease.disease_name}</h4>
+                                                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                                                    <span style={{ fontSize: '0.75rem', fontWeight: 600, padding: '4px 8px', borderRadius: '12px', color: severityColor, background: severityBg }}>
+                                                                        {disease.severity}
+                                                                    </span>
+                                                                    <span style={{ fontSize: '1.2rem', color: 'var(--color-text-muted)' }}>{isExpanded ? '−' : '+'}</span>
+                                                                </div>
+                                                            </div>
+
+                                                            {isExpanded && (
+                                                                <div style={{ padding: '12px', background: '#fff' }}>
+                                                                    {disease.severity === 'Critical' && (
+                                                                        <div style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#b91c1c', padding: '8px 12px', borderRadius: '4px', fontSize: '0.85rem', fontWeight: 600, marginBottom: '1rem' }}>
+                                                                            ⚠️ Contact your veterinarian immediately
+                                                                        </div>
+                                                                    )}
+
+                                                                    <div style={{ marginBottom: '1rem' }}>
+                                                                        <h5 style={{ fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--color-text-muted)', marginBottom: '0.5rem' }}>Symptoms</h5>
+                                                                        <ul style={{ paddingLeft: '1.2rem', margin: 0, fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>
+                                                                            {disease.symptoms && disease.symptoms.map((item, i) => (
+                                                                                <li key={i} style={{ marginBottom: '4px' }}>{item}</li>
+                                                                            ))}
+                                                                        </ul>
+                                                                    </div>
+
+                                                                    <div style={{ marginBottom: '1rem' }}>
+                                                                        <h5 style={{ fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--color-text-muted)', marginBottom: '0.5rem' }}>Prevention</h5>
+                                                                        <ul style={{ paddingLeft: '1.2rem', margin: 0, fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>
+                                                                            {disease.prevention && disease.prevention.map((item, i) => (
+                                                                                <li key={i} style={{ marginBottom: '4px' }}>{item}</li>
+                                                                            ))}
+                                                                        </ul>
+                                                                    </div>
+
+                                                                    <div>
+                                                                        <h5 style={{ fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--color-text-muted)', marginBottom: '0.5rem' }}>Remedy</h5>
+                                                                        <ul style={{ paddingLeft: '1.2rem', margin: 0, fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>
+                                                                            {disease.remedy && disease.remedy.map((item, i) => (
+                                                                                <li key={i} style={{ marginBottom: '4px' }}>{item}</li>
+                                                                            ))}
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
                             )}
 
                             {/* Warning */}
