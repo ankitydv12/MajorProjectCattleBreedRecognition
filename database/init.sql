@@ -179,6 +179,7 @@ INSERT INTO symptoms_lookup
 ('Difficulty breathing', 'Hemorrhagic Septicemia', 'Critical',
  'Emergency vet care immediately', 'Annual HS vaccination');
 
+
 CREATE TABLE IF NOT EXISTS seasonal_diet (
     id SERIAL PRIMARY KEY,
     breed_name VARCHAR(100) NOT NULL,
@@ -192,159 +193,319 @@ CREATE TABLE IF NOT EXISTS seasonal_diet (
     health_alerts TEXT
 );
 
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Amritmahal', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Amritmahal', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Amritmahal', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Bachaur', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Bachaur', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Bachaur', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Bargur', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Bargur', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Bargur', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Bhadawari', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Bhadawari', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Bhadawari', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Dangi', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Dangi', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Dangi', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Deoni', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Deoni', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Deoni', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Gaolao', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Gaolao', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Gaolao', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Gir', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Gir', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Gir', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Hallikar', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Hallikar', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Hallikar', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Hariana', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Hariana', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Hariana', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Kangayam', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Kangayam', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Kangayam', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Kankrej', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Kankrej', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Kankrej', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Kenkattha', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Kenkattha', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Kenkattha', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Khillari', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Khillari', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Khillari', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Krishna Valley', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Krishna Valley', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Krishna Valley', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Malvi', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Malvi', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Malvi', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Mewati', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Mewati', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Mewati', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Murrah', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Murrah', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Murrah', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Nagori', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Nagori', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Nagori', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Nimari', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Nimari', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Nimari', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Ongole', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Ongole', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Ongole', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Ponwar', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Ponwar', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Ponwar', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Red Sindhi', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Red Sindhi', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Red Sindhi', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Sahiwal', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Sahiwal', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Sahiwal', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Siri', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Siri', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Siri', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
-
-INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts)
-VALUES
-('Tharparkar', 'summer', '3-4', '15-20', '1.5-2', '60-80', 'Provide cooling green fodder if available.', 'Reduce outdoor time between 11am-4pm. Provide shade.', 'Watch for heat stress and dehydration.'),
-('Tharparkar', 'monsoon', '4-5', '10-15', '1.5-2', '40-50', 'Limit green fodder to reduce bloat risk.', 'Ensure dry shelter. Provide anti-tick treatment.', 'Watch for foot rot and fungal infections.'),
-('Tharparkar', 'winter', '5-6', '10-15', '2-2.5', '30-40', 'Increase dry fodder and concentrate for energy.', 'Provide warm shelter. Avoid cold drafts.', 'Watch for respiratory issues.');
+INSERT INTO seasonal_diet
+(breed_name, season, dry_fodder_kg, green_fodder_kg,
+concentrate_kg, water_liters, special_fodder,
+management_tips, health_alerts) VALUES
+('Gir', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Gir', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Gir', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Sahiwal', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Sahiwal', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Sahiwal', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Tharparkar', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Tharparkar', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Tharparkar', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Rathi', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Rathi', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Rathi', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Kankrej', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Kankrej', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Kankrej', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Deoni', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Deoni', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Deoni', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Hallikar', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Hallikar', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Hallikar', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Amritmahal', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Amritmahal', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Amritmahal', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Kangayam', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Kangayam', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Kangayam', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Alambadi', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Alambadi', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Alambadi', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Bargur', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Bargur', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Bargur', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Pulikulam', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Pulikulam', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Pulikulam', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Dangi', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Dangi', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Dangi', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Nimari', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Nimari', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Nimari', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Nagori', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Nagori', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Nagori', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Kherigarh', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Kherigarh', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Kherigarh', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Kenkatha', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Kenkatha', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Kenkatha', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Kasaragod', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Kasaragod', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Kasaragod', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Malnad Gidda', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Malnad Gidda', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Malnad Gidda', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Umblachery', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Umblachery', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Umblachery', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Banni', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Banni', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Banni', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Jaffrabadi', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Jaffrabadi', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Jaffrabadi', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Mehsana', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Mehsana', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Mehsana', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Nagpuri', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Nagpuri', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Nagpuri', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Nili Ravi', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Nili Ravi', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Nili Ravi', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues'),
+('Shurti', 'summer', '5-7', '20-25', '3-5', '60-80',
+'Napier grass, Maize',
+'Reduce outdoor time 11am-4pm, provide shade',
+'Watch for heat stress, check water intake'),
+('Shurti', 'monsoon', '6-8', '15-20', '2-4', '40-50',
+'Sorghum, dry hay',
+'Ensure dry shelter, anti-tick treatment',
+'Watch for foot rot, bloat risk from wet grass'),
+('Shurti', 'winter', '8-10', '15-20', '4-6', '35-45',
+'Wheat straw, dry fodder',
+'Provide warm shelter, extra concentrate for energy',
+'Watch for pneumonia, respiratory issues');
