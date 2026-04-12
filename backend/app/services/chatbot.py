@@ -2,7 +2,6 @@ import google.generativeai as genai
 import os
 
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel('gemini-1.5-flash')
 
 SYSTEM_PROMPT = """
 You are CattleAI Assistant, an expert on Indian indigenous
@@ -27,7 +26,11 @@ Always:
 - Use simple language
 """
 
-def get_chat_response(message: str, history: list = []):
+model = genai.GenerativeModel('gemini-1.5-flash', system_instruction=SYSTEM_PROMPT)
+
+def get_chat_response(message: str, history: list = None):
+    if history is None:
+        history = []
     chat = model.start_chat(history=history)
-    response = chat.send_message(SYSTEM_PROMPT + "\n\nUser: " + message)
+    response = chat.send_message(message)
     return response.text
