@@ -10,15 +10,22 @@ from typing import Optional
 from backend.app.schemas.breed import BreedDetail, BreedListItem, BreedsListResponse
 from backend.app.services.breed_info import breed_info_service
 from backend.app.database import get_db
+from typing import List
+from pydantic import BaseModel
+
 from backend.app.services.breed_details import (
     get_breed_summary, get_breed_diet,
-    get_breed_diseases, get_breed_full
+    get_breed_diseases, get_breed_full,
+    get_all_symptoms, check_symptoms
 )
 
-router = APIRouter(prefix="/breeds", tags=["Breeds"])
+class SymptomCheckRequest(BaseModel):
+    symptoms: List[str]
+
+router = APIRouter(tags=["Breeds"])
 
 
-@router.get("", response_model=BreedsListResponse)
+@router.get("/breeds", response_model=BreedsListResponse)
 async def list_breeds(
     animal_type: Optional[str] = Query(None, description="Filter by animal type (Cow/Buffalo)"),
     search: Optional[str] = Query(None, description="Search by breed name"),
@@ -47,7 +54,7 @@ async def list_breeds(
     return BreedsListResponse(total=len(items), breeds=items)
 
 
-@router.get("/{breed_name}", response_model=BreedDetail)
+@router.get("/breeds/{breed_name}", response_model=BreedDetail)
 async def get_breed(breed_name: str):
     """Get detailed info for a specific breed."""
     info = breed_info_service.get_breed(breed_name)
@@ -62,24 +69,33 @@ async def get_breed(breed_name: str):
     return BreedDetail(**info)
 
 
-@router.get("/{breed_name}/summary")
+@router.get("/breeds/{breed_name}/summary")
 def breed_summary(breed_name: str, db=Depends(get_db)):
     data = get_breed_summary(db, breed_name)
     if not data:
         raise HTTPException(status_code=404, detail="Breed not found")
     return data
 
-@router.get("/{breed_name}/diet")
+@router.get("/breeds/{breed_name}/diet")
 def breed_diet(breed_name: str, db=Depends(get_db)):
     data = get_breed_diet(db, breed_name)
     if not data:
         raise HTTPException(status_code=404, detail="Breed not found")
     return data
 
-@router.get("/{breed_name}/diseases")
+@router.get("/breeds/{breed_name}/diseases")
 def breed_diseases(breed_name: str, db=Depends(get_db)):
     return get_breed_diseases(db, breed_name)
 
-@router.get("/{breed_name}/full")
+@router.get("/breeds/{breed_name}/full")
 def breed_full(breed_name: str, db=Depends(get_db)):
     return get_breed_full(db, breed_name)
+
+# Use the global API router instead of the prefix one for /symptoms routes to match the requested paths
+@router.get("/symptoms")
+def get_symptoms_list(db=Depends(get_db)):
+    return get_all_symptoms(db)
+
+@router.post("/symptoms/check")
+def post_symptoms_check(request: SymptomCheckRequest, db=Depends(get_db)):
+    return check_symptoms(db, request.symptoms)
