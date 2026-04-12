@@ -98,14 +98,18 @@ export async function checkSymptoms(symptoms) {
 }
 
 export async function getSeasonalDiet(breedName, season) {
-    try {
-        const response = await fetch(`${API_BASE_URL}/breeds/${encodeURIComponent(breedName)}/seasonal-diet?season=${season}`);
-        if (!response.ok) {
-            throw new Error('Failed to fetch seasonal diet');
-        }
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching seasonal diet:', error);
-        return null;
-    }
+  const res = await fetch(
+    `${API_BASE_URL}/breeds/${encodeURIComponent(breedName)}/seasonal-diet?season=${season}`
+  );
+  if (!res.ok) throw new Error('Seasonal diet not found');
+  return res.json();
 }
+
+function getCurrentSeason() {
+  const month = new Date().getMonth() + 1;
+  if (month >= 3 && month <= 6) return 'summer';
+  if (month >= 7 && month <= 10) return 'monsoon';
+  return 'winter';
+}
+
+export { getCurrentSeason };
