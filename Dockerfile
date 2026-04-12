@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Copy backend requirements and install
 COPY backend/requirements.txt ./backend/
-RUN pip install --no-cache-dir -r backend/requirements.txt
+RUN pip install --no-cache-dir --timeout=220 --timeout=220 --timeout=120 -r backend/requirements.txt
 
 # Copy backend source code and config
 COPY backend/ ./backend/
