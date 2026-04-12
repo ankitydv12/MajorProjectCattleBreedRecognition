@@ -10,6 +10,7 @@ import BreedExplorerPage from './pages/BreedExplorerPage';
 import AboutPage from './pages/AboutPage';
 import SymptomCheckerPage from './pages/SymptomCheckerPage';
 import VetFinderPage from './pages/VetFinderPage';
+import ChatBot from './components/ChatBot';
 import './App.css';
 
 function App() {
@@ -69,6 +70,7 @@ function App() {
           {' '} · Powered by PyTorch & FastAPI · {new Date().getFullYear()}
         </p>
       </footer>
+      <ChatBot />
     </Router>
   );
 }
