@@ -103,8 +103,8 @@ def post_symptoms_check(request: SymptomCheckRequest, db=Depends(get_db)):
 
 @router.get("/breeds/{breed_name}/seasonal-diet")
 async def get_diet(breed_name: str, season: str, db: Session = Depends(get_db)):
-    from app.services.breed_details import get_seasonal_diet
-    diet = get_seasonal_diet(breed_name, season.lower(), db)
+    from backend.app.services.breed_details import get_seasonal_diet
+    diet = get_seasonal_diet(db, breed_name, season.lower())
     if not diet:
         raise HTTPException(status_code=404, detail=f"Seasonal diet not found for breed {breed_name} in season {season}")
     return diet
