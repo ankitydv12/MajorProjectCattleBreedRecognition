@@ -66,3 +66,24 @@ def get_breed_full(db: Session, breed_name: str):
         "diet": get_breed_diet(db, breed_name),
         "diseases": get_breed_diseases(db, breed_name)
     }
+
+def get_all_symptoms(db):
+    results = db.execute(
+        text("SELECT DISTINCT symptom FROM symptoms_lookup ORDER BY symptom")
+    ).fetchall()
+    return [r[0] for r in results]
+
+def check_symptoms(db, symptoms: list):
+    results = db.execute(
+        text("""
+            SELECT disease_name, severity, remedy, prevention,
+            COUNT(*) as match_count,
+            ARRAY_AGG(symptom) as matched_symptoms
+            FROM symptoms_lookup
+            WHERE LOWER(symptom) = ANY(:symptoms)
+            GROUP BY disease_name, severity, remedy, prevention
+            ORDER BY match_count DESC
+        """),
+        {"symptoms": [s.lower() for s in symptoms]}
+    ).fetchall()
+    return [dict(r._mapping) for r in results]

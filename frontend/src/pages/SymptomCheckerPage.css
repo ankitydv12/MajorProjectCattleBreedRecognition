@@ -1,0 +1,13 @@
+/* SymptomCheckerPage.css */
+
+.symptoms-grid .glass-card.selected {
+  background: var(--color-bg-card-hover);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-accent) !important;
+}
+
+@media (max-width: 768px) {
+  .symptoms-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage';
 import PredictPage from './pages/PredictPage';
 import BreedExplorerPage from './pages/BreedExplorerPage';
 import AboutPage from './pages/AboutPage';
+import SymptomCheckerPage from './pages/SymptomCheckerPage';
 import './App.css';
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
             <li><NavLink to="/" end>{t('nav.home')}</NavLink></li>
             <li><NavLink to="/predict">{t('nav.predict')}</NavLink></li>
             <li><NavLink to="/breeds">{t('nav.breeds')}</NavLink></li>
+            <li><NavLink to="/symptom-checker">Symptom Checker</NavLink></li>
             <li><NavLink to="/about">{t('nav.about')}</NavLink></li>
           </ul>
           <LanguageSwitcher />
@@ -55,6 +57,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/predict" element={<PredictPage />} />
         <Route path="/breeds" element={<BreedExplorerPage />} />
+        <Route path="/symptom-checker" element={<SymptomCheckerPage />} />
         <Route path="/about" element={<AboutPage />} />
       </Routes>
 

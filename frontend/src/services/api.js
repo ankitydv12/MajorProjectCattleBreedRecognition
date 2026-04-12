@@ -80,3 +80,19 @@ export async function getBreedFull(breedName) {
   if (!res.ok) throw new Error('Not found');
   return res.json();
 }
+
+export async function getAllSymptoms() {
+  const res = await fetch(`${API_BASE_URL}/symptoms`);
+  if (!res.ok) throw new Error('Failed to fetch symptoms');
+  return res.json();
+}
+
+export async function checkSymptoms(symptoms) {
+  const res = await fetch(`${API_BASE_URL}/symptoms/check`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ symptoms })
+  });
+  if (!res.ok) throw new Error('Failed to check symptoms');
+  return res.json();
+}

@@ -124,3 +124,39 @@ INSERT INTO breed_diseases (breed_name, disease_name, disease_type, symptoms, pr
 ('Nagpuri', 'Fascioliasis', 'Parasitic', 'Weight loss.', 'Deworming.', 'Flukicides.', 'Medium', false, 'Control snails.'),
 ('Nili Ravi', 'Hemorrhagic Septicemia (HS)', 'Bacterial', 'Swollen throat, fever.', 'Vaccination.', 'Antibiotics.', 'High', true, 'High mortality.'),
 ('Shurti', 'Foot and Mouth Disease (FMD)', 'Viral', 'Blisters, lameness.', 'Vaccination.', 'Supportive care.', 'High', true, 'Isolate and report.');
+
+CREATE TABLE IF NOT EXISTS symptoms_lookup (
+    id SERIAL PRIMARY KEY,
+    symptom VARCHAR(200) NOT NULL,
+    disease_name VARCHAR(200) NOT NULL,
+    breed_type VARCHAR(50) DEFAULT 'both',
+    severity VARCHAR(20),
+    remedy TEXT,
+    prevention TEXT
+);
+
+INSERT INTO symptoms_lookup (symptom, disease_name, breed_type, severity, remedy, prevention) VALUES
+('High fever', 'Foot and Mouth Disease (FMD)', 'both', 'High', 'Symptomatic treatment, wound washing with mild antiseptic', 'Biannual vaccination, strict biosecurity'),
+('High fever', 'Black Quarter', 'both', 'High', 'Penicillin in early stages', 'Annual vaccination before monsoon'),
+('High fever', 'Theileriosis', 'both', 'High', 'Specific antiprotozoal drugs, supportive therapy', 'Tick control, pasture management'),
+('Blisters on mouth', 'Foot and Mouth Disease (FMD)', 'both', 'High', 'Symptomatic treatment, wound washing with mild antiseptic', 'Biannual vaccination, strict biosecurity'),
+('Lameness', 'Foot and Mouth Disease (FMD)', 'both', 'High', 'Symptomatic treatment, wound washing with mild antiseptic', 'Biannual vaccination, strict biosecurity'),
+('Lameness', 'Foot rot', 'both', 'Medium', 'Antibiotics, foot bathing', 'Proper hoof care, dry ground'),
+('Swollen udder', 'Mastitis', 'both', 'Medium', 'Antibiotics (intramammary and systemic) as prescribed by vet', 'Proper hygiene during milking, dry cow therapy'),
+('Reduced milk', 'Mastitis', 'both', 'Medium', 'Antibiotics (intramammary and systemic) as prescribed by vet', 'Proper hygiene during milking, dry cow therapy'),
+('Reduced milk', 'Ketosis', 'both', 'Medium', 'Propylene glycol, IV glucose', 'Proper nutrition during transition period'),
+('Abortion', 'Brucellosis', 'both', 'High', 'No effective cure. Cull infected animals', 'Vaccination of female calves, test and cull'),
+('Swollen neck', 'Hemorrhagic Septicemia', 'both', 'High', 'Broad-spectrum antibiotics if caught very early', 'Annual vaccination before monsoon'),
+('Bloating', 'Bloat', 'both', 'Critical', 'Anti-bloating agents, stomach tube, trocar in severe cases', 'Avoid rapid feed changes, limit legume grazing'),
+('Diarrhea', 'BVD', 'both', 'Medium', 'Supportive care, fluids', 'Vaccination, biosecurity'),
+('Diarrhea', 'Salmonella', 'both', 'High', 'Antibiotics, fluids', 'Hygiene, isolate sick animals'),
+('Weight loss', 'Tuberculosis', 'both', 'High', 'Cull infected animals', 'Test and cull program'),
+('Weight loss', 'Parasites', 'both', 'Low', 'Deworming', 'Regular deworming schedule'),
+('Nasal discharge', 'Pneumonia', 'both', 'Medium', 'Antibiotics, anti-inflammatories', 'Good ventilation, reduce stress'),
+('Nasal discharge', 'IBR', 'both', 'Medium', 'Supportive care', 'Vaccination'),
+('Tick infestation', 'Theileriosis', 'both', 'High', 'Specific antiprotozoal drugs', 'Tick control'),
+('Tick infestation', 'Babesiosis', 'both', 'High', 'Specific antiprotozoal drugs', 'Tick control'),
+('Loss of appetite', 'Multiple diseases', 'both', 'Low', 'Consult vet for diagnosis', 'General health monitoring'),
+('Rough coat', 'Nutritional deficiency', 'both', 'Low', 'Balanced diet, mineral supplements', 'Proper nutrition management'),
+('Pale mucous membranes', 'Anaemia', 'both', 'Medium', 'Iron supplements, treat underlying cause', 'Balanced diet, parasite control'),
+('Pale mucous membranes', 'Babesiosis', 'both', 'High', 'Specific antiprotozoal drugs', 'Tick control');
