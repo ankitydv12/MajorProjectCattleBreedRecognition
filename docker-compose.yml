@@ -35,6 +35,7 @@ services:
       - MODEL_NAME=resnet
       - MODEL_VERSION=v2.0
       - DATABASE_URL=postgresql://cattleuser:cattlepass@cattle-db:5432/cattledb
+      - GEMINI_API_KEY=your_api_key_here
     volumes:
       - ./models:/app/models
       - ./data:/app/data

@@ -19,9 +19,14 @@ from backend.app.services.breed_details import (
     get_breed_diseases, get_breed_full,
     get_all_symptoms, check_symptoms
 )
+from backend.app.services.chatbot import get_chat_response
 
 class SymptomCheckRequest(BaseModel):
     symptoms: List[str]
+
+class ChatRequest(BaseModel):
+    message: str
+    history: list = []
 
 router = APIRouter(tags=["Breeds"])
 
@@ -108,3 +113,11 @@ async def get_diet(breed_name: str, season: str, db: Session = Depends(get_db)):
     if not diet:
         raise HTTPException(status_code=404, detail=f"Seasonal diet not found for breed {breed_name} in season {season}")
     return diet
+
+@router.post("/chat")
+def chat_endpoint(request: ChatRequest):
+    try:
+        response_text = get_chat_response(request.message, request.history)
+        return {"response": response_text}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
