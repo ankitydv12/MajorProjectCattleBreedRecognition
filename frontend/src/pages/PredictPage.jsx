@@ -8,7 +8,7 @@ BUGS FIXED:
 */
 import { useTranslation } from 'react-i18next';
 import { useState, useRef, useCallback } from 'react';
-import { predictFromFile, predictFromURL, predictFromBase64, getBreedFull, getSeasonalDiet } from '../services/api';
+import { predictFromFile, predictFromURL, predictFromBase64, getBreedFull, getSeasonalDiet, getCurrentSeason } from '../services/api';
 import { usePredictionHistory } from '../hooks/usePredictionHistory';
 
 function PredictPage() {
@@ -26,8 +26,9 @@ function PredictPage() {
     const [fullBreedInfo, setFullBreedInfo] = useState(null);
     const [infoLoading, setInfoLoading] = useState(false);
     const [infoError, setInfoError] = useState(null);
-    const [infoTab, setInfoTab] = useState('overview'); // overview, profile, diet, diseases
+    const [infoTab, setInfoTab] = useState('overview'); // overview, profile, diet, diseases, seasonal
     const [expandedDisease, setExpandedDisease] = useState(null);
+    const [seasonalDiet, setSeasonalDiet] = useState(null);
 
     const fetchFullInfo = async (breedName) => {
         setInfoLoading(true);
@@ -35,6 +36,14 @@ function PredictPage() {
         try {
             const data = await getBreedFull(breedName);
             setFullBreedInfo(data);
+
+            try {
+                const season = getCurrentSeason();
+                const seasonal = await getSeasonalDiet(breedName, season);
+                setSeasonalDiet(seasonal);
+            } catch (e) {
+                console.error("Failed to fetch seasonal diet", e);
+            }
         } catch {
             setInfoError('Details not available');
         } finally {
@@ -362,6 +371,12 @@ function PredictPage() {
                                         >
                                             🏥 Diseases
                                         </button>
+                                        <button
+                                            style={{ background: 'none', border: 'none', padding: '0.5rem 0', fontWeight: 600, color: infoTab === 'seasonal' ? '#d97706' : 'var(--color-text-secondary)', borderBottom: infoTab === 'seasonal' ? '2px solid #d97706' : '2px solid transparent', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                                            onClick={() => setInfoTab('seasonal')}
+                                        >
+                                            🌦️ Seasonal Diet
+                                        </button>
                                     </div>
 
                                     {/* Content Area */}
@@ -623,6 +638,76 @@ function PredictPage() {
                                                         </div>
                                                     );
                                                 })}
+                                            </div>
+                                        )}
+
+                                        {infoTab === 'seasonal' && !infoLoading && seasonalDiet && (
+                                            <div>
+                                                <div style={{ padding: '12px', background: 'var(--color-bg-primary)', borderRadius: 'var(--radius-sm)', marginBottom: '15px', border: '1px solid var(--color-border)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                                    <span style={{ fontSize: '1.5rem' }}>
+                                                        {seasonalDiet.season === 'summer' ? '☀️' : seasonalDiet.season === 'monsoon' ? '🌧️' : '❄️'}
+                                                    </span>
+                                                    <h4 style={{ margin: 0, textTransform: 'capitalize', fontSize: '1.1rem', color: 'var(--color-text-primary)' }}>
+                                                        {seasonalDiet.season} Diet ({seasonalDiet.season === 'summer' ? 'March-June' : seasonalDiet.season === 'monsoon' ? 'July-October' : 'November-February'})
+                                                    </h4>
+                                                </div>
+
+                                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px', marginBottom: '15px' }}>
+                                                    <div style={{ padding: '12px', background: 'rgba(217, 119, 6, 0.1)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(217, 119, 6, 0.2)' }}>
+                                                        <div style={{ fontSize: '0.8rem', color: '#b45309', fontWeight: 600, marginBottom: '5px' }}>DRY FODDER</div>
+                                                        <div style={{ fontSize: '0.9rem', color: 'var(--color-text-primary)' }}>{seasonalDiet.feed_requirements.dry_fodder}</div>
+                                                    </div>
+                                                    <div style={{ padding: '12px', background: 'rgba(16, 185, 129, 0.1)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
+                                                        <div style={{ fontSize: '0.8rem', color: '#047857', fontWeight: 600, marginBottom: '5px' }}>GREEN FODDER</div>
+                                                        <div style={{ fontSize: '0.9rem', color: 'var(--color-text-primary)' }}>{seasonalDiet.feed_requirements.green_fodder}</div>
+                                                    </div>
+                                                    <div style={{ padding: '12px', background: 'rgba(139, 92, 246, 0.1)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(139, 92, 246, 0.2)' }}>
+                                                        <div style={{ fontSize: '0.8rem', color: '#6d28d9', fontWeight: 600, marginBottom: '5px' }}>CONCENTRATE</div>
+                                                        <div style={{ fontSize: '0.9rem', color: 'var(--color-text-primary)' }}>{seasonalDiet.feed_requirements.concentrate}</div>
+                                                    </div>
+                                                    <div style={{ padding: '12px', background: 'rgba(59, 130, 246, 0.1)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(59, 130, 246, 0.2)' }}>
+                                                        <div style={{ fontSize: '0.8rem', color: '#1d4ed8', fontWeight: 600, marginBottom: '5px' }}>WATER</div>
+                                                        <div style={{ fontSize: '0.9rem', color: 'var(--color-text-primary)' }}>{seasonalDiet.feed_requirements.water}</div>
+                                                    </div>
+                                                </div>
+
+                                                {seasonalDiet.special_fodder && seasonalDiet.special_fodder.length > 0 && (
+                                                    <div style={{ marginBottom: '15px' }}>
+                                                        <h5 style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', marginBottom: '8px' }}>Special Fodder</h5>
+                                                        <ul style={{ paddingLeft: '1.2rem', margin: 0, fontSize: '0.9rem', color: 'var(--color-text-primary)' }}>
+                                                            {seasonalDiet.special_fodder.map((item, idx) => (
+                                                                <li key={idx} style={{ marginBottom: '4px' }}>{item}</li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                )}
+
+                                                {seasonalDiet.management_tips && seasonalDiet.management_tips.length > 0 && (
+                                                    <div style={{ marginBottom: '15px' }}>
+                                                        <h5 style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', marginBottom: '8px' }}>Management Tips</h5>
+                                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                                            {seasonalDiet.management_tips.map((item, idx) => (
+                                                                <div key={idx} style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+                                                                    <span style={{ color: '#10b981' }}>✓</span>
+                                                                    <span style={{ fontSize: '0.9rem', color: 'var(--color-text-primary)' }}>{item}</span>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                {seasonalDiet.health_alerts && seasonalDiet.health_alerts.length > 0 && (
+                                                    <div>
+                                                        <h5 style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', marginBottom: '8px' }}>Health Alerts</h5>
+                                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                                            {seasonalDiet.health_alerts.map((item, idx) => (
+                                                                <div key={idx} style={{ background: 'rgba(249, 115, 22, 0.1)', borderLeft: '4px solid #f97316', padding: '10px', borderRadius: '4px', fontSize: '0.9rem', color: '#9a3412' }}>
+                                                                    {item}
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </div>
                                         )}
                                     </div>
