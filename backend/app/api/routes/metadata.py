@@ -12,6 +12,7 @@ from backend.app.services.breed_info import breed_info_service
 from backend.app.database import get_db
 from typing import List
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
 
 from backend.app.services.breed_details import (
     get_breed_summary, get_breed_diet,
