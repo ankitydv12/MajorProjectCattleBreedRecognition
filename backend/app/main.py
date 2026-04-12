@@ -14,11 +14,14 @@ from fastapi.middleware.cors import CORSMiddleware
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT))
 
+from sqlalchemy import text
+
 from backend.app.core.config import get_settings
 from backend.app.core.logging import logger
 from backend.app.api.routes import health, predict, metadata
 from backend.app.services.inference import inference_service
 from backend.app.services.breed_info import breed_info_service
+from backend.app.database import SessionLocal
 
 
 @asynccontextmanager
@@ -33,6 +36,73 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.error(f"Startup error: {e}")
         logger.info("API started with limited functionality")
+
+    db = SessionLocal()
+    try:
+        db.execute(text("""
+            CREATE TABLE IF NOT EXISTS symptoms_lookup (
+                id SERIAL PRIMARY KEY,
+                symptom VARCHAR(200) NOT NULL,
+                disease_name VARCHAR(200) NOT NULL,
+                breed_type VARCHAR(50) DEFAULT 'both',
+                severity VARCHAR(20),
+                remedy TEXT,
+                prevention TEXT
+            );
+        """))
+        count = db.execute(text("SELECT COUNT(*) FROM symptoms_lookup")).scalar()
+        if count == 0:
+            db.execute(text("""
+                INSERT INTO symptoms_lookup
+                (symptom, disease_name, severity, remedy, prevention) VALUES
+                ('High fever', 'Foot and Mouth Disease', 'High',
+                 'Symptomatic treatment, consult vet', 'Biannual vaccination'),
+                ('Blisters on mouth', 'Foot and Mouth Disease', 'High',
+                 'Wash with antiseptic, consult vet', 'Biannual vaccination'),
+                ('Lameness', 'Foot and Mouth Disease', 'High',
+                 'Rest, antiseptic wash, consult vet', 'Vaccination'),
+                ('Swollen udder', 'Mastitis', 'Medium',
+                 'Antibiotic infusion, consult vet', 'Clean milking practices'),
+                ('Reduced milk', 'Mastitis', 'Medium',
+                 'Antibiotic treatment, consult vet', 'Teat dipping after milking'),
+                ('Abortion', 'Brucellosis', 'High',
+                 'No cure, cull positive animals', 'Brucella vaccine'),
+                ('Swollen neck', 'Hemorrhagic Septicemia', 'Critical',
+                 'Antibiotic immediately, consult vet', 'Annual HS vaccination'),
+                ('Bloating', 'Bloat', 'High',
+                 'Trocar puncture, consult vet urgently', 'Avoid wet legume grazing'),
+                ('Diarrhea', 'Salmonellosis', 'Medium',
+                 'ORS, antibiotics, consult vet', 'Hygiene, clean water'),
+                ('Weight loss', 'Tuberculosis', 'High',
+                 'Test and cull, consult vet', 'Regular TB testing'),
+                ('Nasal discharge', 'Pneumonia', 'Medium',
+                 'Antibiotics, consult vet', 'Avoid drafts, vaccination'),
+                ('Tick infestation', 'Theileriosis', 'High',
+                 'Buparvaquone injection, consult vet', 'Regular tick control'),
+                ('Loss of appetite', 'Ketosis', 'Medium',
+                 'Glucose drip, consult vet', 'Balanced diet'),
+                ('Rough coat', 'Nutritional deficiency', 'Low',
+                 'Mineral supplements, balanced diet',
+                 'Regular mineral supplementation'),
+                ('Pale mucous membranes', 'Anaemia', 'Medium',
+                 'Iron supplements, deworm, consult vet', 'Regular deworming'),
+                ('High fever', 'Black Quarter', 'Critical',
+                 'Penicillin immediately, consult vet', 'Annual BQ vaccination'),
+                ('Swelling of hindquarters', 'Black Quarter', 'Critical',
+                 'Penicillin immediately, consult vet', 'Annual BQ vaccination'),
+                ('Drooling', 'Foot and Mouth Disease', 'High',
+                 'Symptomatic treatment, consult vet', 'Biannual vaccination'),
+                ('Retained placenta', 'Brucellosis', 'High',
+                 'Manual removal, antibiotics, consult vet', 'Brucella vaccine'),
+                ('Difficulty breathing', 'Hemorrhagic Septicemia', 'Critical',
+                 'Emergency vet care immediately', 'Annual HS vaccination');
+            """))
+        db.commit()
+    except Exception as e:
+        logger.error(f"Error creating/populating symptoms_lookup table: {e}")
+        db.rollback()
+    finally:
+        db.close()
 
     yield
 
@@ -60,8 +130,8 @@ def create_app() -> FastAPI:
     # CORS
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["http://localhost:3000", "http://localhost:5173", "*"],
-        allow_credentials=True,
+        allow_origins=["*"],
+        allow_credentials=False,
         allow_methods=["*"],
         allow_headers=["*"],
     )
