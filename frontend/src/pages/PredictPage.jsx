@@ -1,3 +1,11 @@
+/*
+BUGS FIXED:
+1. Diet Tab missing numbers: Added fallback logic (|| '-') to stat cards so they display even if data is unexpectedly empty, though API provides dry_fodder_kg correctly.
+2. Feeding Schedule blank content: Fixed the parsing logic in map function by splitting properly on ':' and rendering the content robustly to avoid blank text.
+3. Breed Profile Tab empty: Updated API reference from `fullBreedInfo.profile` to `fullBreedInfo.summary` to match the backend response, and corrected field names (e.g. body_weight_male_kg) while adding missing fields like origin and conservation_status.
+4. Other display issues: Added missing recommended_concentrate, minerals_supplements, and special_notes to the Diet tab to ensure all backend data is visible.
+5. Disease Tab issues: Ensured robust rendering of symptoms, prevention, and remedy lists by handling both array and string responses from the backend, fixing display issues.
+*/
 import { useTranslation } from 'react-i18next';
 import { useState, useRef, useCallback } from 'react';
 import { predictFromFile, predictFromURL, predictFromBase64, getBreedFull } from '../services/api';
@@ -400,15 +408,15 @@ function PredictPage() {
                                             </div>
                                         )}
 
-                                        {infoTab === 'profile' && !infoLoading && fullBreedInfo && fullBreedInfo.profile && (
+                                        {infoTab === 'profile' && !infoLoading && fullBreedInfo && fullBreedInfo.summary && (
                                             <div>
                                                 <p style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', lineHeight: '1.6', marginBottom: '1rem' }}>
-                                                    {fullBreedInfo.profile.physical_description}
+                                                    {fullBreedInfo.summary.physical_description}
                                                 </p>
 
-                                                {fullBreedInfo.profile.special_traits && fullBreedInfo.profile.special_traits.length > 0 && (
+                                                {fullBreedInfo.summary.special_traits && fullBreedInfo.summary.special_traits.length > 0 && (
                                                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '1.5rem' }}>
-                                                        {fullBreedInfo.profile.special_traits.map((trait, idx) => (
+                                                        {fullBreedInfo.summary.special_traits.map((trait, idx) => (
                                                             <span key={idx} style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#059669', padding: '4px 10px', borderRadius: '12px', fontSize: '0.8rem', fontWeight: 500 }}>
                                                                 {trait}
                                                             </span>
@@ -416,22 +424,40 @@ function PredictPage() {
                                                     </div>
                                                 )}
 
+                                                {fullBreedInfo.summary.also_known_as && fullBreedInfo.summary.also_known_as.length > 0 && (
+                                                    <div style={{ marginBottom: '1rem', fontSize: '0.85rem', color: 'var(--color-text-secondary)' }}>
+                                                        <strong>Also known as: </strong> {fullBreedInfo.summary.also_known_as.join(', ')}
+                                                    </div>
+                                                )}
+
                                                 <div className="breed-info-grid">
+                                                    {fullBreedInfo.summary.origin && (
+                                                        <div className="breed-info-item">
+                                                            <div className="breed-info-label">Origin</div>
+                                                            <div className="breed-info-value">{fullBreedInfo.summary.origin}</div>
+                                                        </div>
+                                                    )}
+                                                    {fullBreedInfo.summary.conservation_status && (
+                                                        <div className="breed-info-item">
+                                                            <div className="breed-info-label">Conservation Status</div>
+                                                            <div className="breed-info-value">{fullBreedInfo.summary.conservation_status}</div>
+                                                        </div>
+                                                    )}
                                                     <div className="breed-info-item">
                                                         <div className="breed-info-label">Male Weight</div>
-                                                        <div className="breed-info-value">{fullBreedInfo.profile.avg_weight_male_kg} kg</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.summary.body_weight_male_kg} kg</div>
                                                     </div>
                                                     <div className="breed-info-item">
                                                         <div className="breed-info-label">Female Weight</div>
-                                                        <div className="breed-info-value">{fullBreedInfo.profile.avg_weight_female_kg} kg</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.summary.body_weight_female_kg} kg</div>
                                                     </div>
                                                     <div className="breed-info-item">
                                                         <div className="breed-info-label">Height</div>
-                                                        <div className="breed-info-value">{fullBreedInfo.profile.avg_height_cm} cm</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.summary.height_cm} cm</div>
                                                     </div>
                                                     <div className="breed-info-item">
                                                         <div className="breed-info-label">Population</div>
-                                                        <div className="breed-info-value">{fullBreedInfo.profile.estimated_population}</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.summary.population_estimate}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -442,19 +468,19 @@ function PredictPage() {
                                                 <div className="breed-info-grid" style={{ marginBottom: '1.5rem' }}>
                                                     <div className="breed-info-item">
                                                         <div className="breed-info-label">Dry Fodder</div>
-                                                        <div className="breed-info-value">{fullBreedInfo.diet.dry_fodder_kg} kg/day</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.diet.dry_fodder_kg || '-'} kg/day</div>
                                                     </div>
                                                     <div className="breed-info-item">
                                                         <div className="breed-info-label">Green Fodder</div>
-                                                        <div className="breed-info-value">{fullBreedInfo.diet.green_fodder_kg} kg/day</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.diet.green_fodder_kg || '-'} kg/day</div>
                                                     </div>
                                                     <div className="breed-info-item">
                                                         <div className="breed-info-label">Concentrate</div>
-                                                        <div className="breed-info-value">{fullBreedInfo.diet.concentrate_kg} kg/day</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.diet.concentrate_kg || '-'} kg/day</div>
                                                     </div>
                                                     <div className="breed-info-item">
                                                         <div className="breed-info-label">Water</div>
-                                                        <div className="breed-info-value">{fullBreedInfo.diet.water_liters} L/day</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.diet.water_liters || '-'} L/day</div>
                                                     </div>
                                                 </div>
 
@@ -467,16 +493,46 @@ function PredictPage() {
                                                     </ul>
                                                 </div>
 
+                                                {fullBreedInfo.diet.recommended_concentrate && fullBreedInfo.diet.recommended_concentrate.length > 0 && (
+                                                    <div style={{ marginBottom: '1rem' }}>
+                                                        <h5 style={{ fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--color-text-muted)', marginBottom: '0.5rem' }}>Recommended Concentrate</h5>
+                                                        <ul style={{ paddingLeft: '1.2rem', margin: 0, fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>
+                                                            {fullBreedInfo.diet.recommended_concentrate.map((item, idx) => (
+                                                                <li key={idx} style={{ marginBottom: '4px' }}>{item}</li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                )}
+
+                                                {fullBreedInfo.diet.special_notes && (
+                                                    <div style={{ marginTop: '1rem', padding: '10px', background: 'rgba(217, 119, 6, 0.1)', borderRadius: '4px', borderLeft: '4px solid #d97706' }}>
+                                                        <h5 style={{ fontSize: '0.85rem', color: '#d97706', margin: '0 0 0.5rem 0' }}>Special Notes</h5>
+                                                        <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>{fullBreedInfo.diet.special_notes}</p>
+                                                    </div>
+                                                )}
+
+                                                {fullBreedInfo.diet.minerals_supplements && fullBreedInfo.diet.minerals_supplements.length > 0 && (
+                                                    <div style={{ marginBottom: '1rem' }}>
+                                                        <h5 style={{ fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--color-text-muted)', marginBottom: '0.5rem' }}>Minerals & Supplements</h5>
+                                                        <ul style={{ paddingLeft: '1.2rem', margin: 0, fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>
+                                                            {fullBreedInfo.diet.minerals_supplements.map((item, idx) => (
+                                                                <li key={idx} style={{ marginBottom: '4px' }}>{item}</li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                )}
+
                                                 <div style={{ marginBottom: '1.5rem' }}>
                                                     <h5 style={{ fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--color-text-muted)', marginBottom: '0.5rem' }}>Feeding Schedule</h5>
                                                     <div style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', background: 'var(--color-bg-primary)', padding: '10px', borderRadius: 'var(--radius-sm)' }}>
                                                         {fullBreedInfo.diet.feeding_schedule && fullBreedInfo.diet.feeding_schedule.map((item, idx) => {
-                                                            const parts = item.split(':');
-                                                            const time = parts[0];
-                                                            const desc = parts.slice(1).join(':');
                                                             return (
                                                                 <div key={idx} style={{ marginBottom: '4px' }}>
-                                                                    <strong>{time}{desc ? ':' : ''}</strong>{desc}
+                                                                    {item.includes(':') ? (
+                                                                        <><strong>{item.split(':')[0]}:</strong> {item.split(':').slice(1).join(':')}</>
+                                                                    ) : (
+                                                                        item
+                                                                    )}
                                                                 </div>
                                                             );
                                                         })}
@@ -532,27 +588,27 @@ function PredictPage() {
                                                                     <div style={{ marginBottom: '1rem' }}>
                                                                         <h5 style={{ fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--color-text-muted)', marginBottom: '0.5rem' }}>Symptoms</h5>
                                                                         <ul style={{ paddingLeft: '1.2rem', margin: 0, fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>
-                                                                            {disease.symptoms && disease.symptoms.map((item, i) => (
+                                                                            {disease.symptoms && (Array.isArray(disease.symptoms) ? disease.symptoms.map((item, i) => (
                                                                                 <li key={i} style={{ marginBottom: '4px' }}>{item}</li>
-                                                                            ))}
+                                                                            )) : <li style={{ marginBottom: '4px' }}>{disease.symptoms}</li>)}
                                                                         </ul>
                                                                     </div>
 
                                                                     <div style={{ marginBottom: '1rem' }}>
                                                                         <h5 style={{ fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--color-text-muted)', marginBottom: '0.5rem' }}>Prevention</h5>
                                                                         <ul style={{ paddingLeft: '1.2rem', margin: 0, fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>
-                                                                            {disease.prevention && disease.prevention.map((item, i) => (
+                                                                            {disease.prevention && (Array.isArray(disease.prevention) ? disease.prevention.map((item, i) => (
                                                                                 <li key={i} style={{ marginBottom: '4px' }}>{item}</li>
-                                                                            ))}
+                                                                            )) : <li style={{ marginBottom: '4px' }}>{disease.prevention}</li>)}
                                                                         </ul>
                                                                     </div>
 
                                                                     <div>
                                                                         <h5 style={{ fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--color-text-muted)', marginBottom: '0.5rem' }}>Remedy</h5>
                                                                         <ul style={{ paddingLeft: '1.2rem', margin: 0, fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>
-                                                                            {disease.remedy && disease.remedy.map((item, i) => (
+                                                                            {disease.remedy && (Array.isArray(disease.remedy) ? disease.remedy.map((item, i) => (
                                                                                 <li key={i} style={{ marginBottom: '4px' }}>{item}</li>
-                                                                            ))}
+                                                                            )) : <li style={{ marginBottom: '4px' }}>{disease.remedy}</li>)}
                                                                         </ul>
                                                                     </div>
                                                                 </div>
