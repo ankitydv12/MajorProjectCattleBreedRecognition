@@ -96,3 +96,16 @@ export async function checkSymptoms(symptoms) {
   if (!res.ok) throw new Error('Failed to check symptoms');
   return res.json();
 }
+
+export async function getSeasonalDiet(breedName, season) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/breeds/${encodeURIComponent(breedName)}/seasonal-diet?season=${season}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch seasonal diet');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching seasonal diet:', error);
+        return null;
+    }
+}

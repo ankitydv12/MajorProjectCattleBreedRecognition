@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import text
+from sqlalchemy.orm import Session
 
 def clean_breed_name(breed_name: str) -> str:
     name = breed_name.strip()
@@ -87,3 +88,23 @@ def check_symptoms(db, symptoms: list):
         {"symptoms": [s.lower() for s in symptoms]}
     ).fetchall()
     return [dict(r._mapping) for r in results]
+
+def get_seasonal_diet(breed_name: str, season: str, db: Session):
+    query = text("""
+        SELECT dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters,
+               special_fodder, management_tips, health_alerts
+        FROM seasonal_diet
+        WHERE breed_name = :breed_name AND season = :season
+    """)
+    result = db.execute(query, {"breed_name": breed_name, "season": season}).fetchone()
+    if result:
+        return {
+            "dry_fodder_kg": result[0],
+            "green_fodder_kg": result[1],
+            "concentrate_kg": result[2],
+            "water_liters": result[3],
+            "special_fodder": result[4],
+            "management_tips": result[5],
+            "health_alerts": result[6]
+        }
+    return None
