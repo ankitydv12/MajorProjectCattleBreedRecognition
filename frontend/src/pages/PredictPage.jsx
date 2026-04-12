@@ -27,7 +27,7 @@ function PredictPage() {
         try {
             const data = await getBreedFull(breedName);
             setFullBreedInfo(data);
-        } catch (err) {
+        } catch {
             setInfoError('Details not available');
         } finally {
             setInfoLoading(false);
@@ -80,7 +80,7 @@ function PredictPage() {
             }
             setCameraActive(true);
             setError(null);
-        } catch (err) {
+        } catch {
             setError('Could not access camera. Please check permissions.');
         }
     };
@@ -442,19 +442,19 @@ function PredictPage() {
                                                 <div className="breed-info-grid" style={{ marginBottom: '1.5rem' }}>
                                                     <div className="breed-info-item">
                                                         <div className="breed-info-label">Dry Fodder</div>
-                                                        <div className="breed-info-value">{fullBreedInfo.diet.dry_fodder_kg_per_day} kg/day</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.diet.dry_fodder_kg} kg/day</div>
                                                     </div>
                                                     <div className="breed-info-item">
                                                         <div className="breed-info-label">Green Fodder</div>
-                                                        <div className="breed-info-value">{fullBreedInfo.diet.green_fodder_kg_per_day} kg/day</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.diet.green_fodder_kg} kg/day</div>
                                                     </div>
                                                     <div className="breed-info-item">
                                                         <div className="breed-info-label">Concentrate</div>
-                                                        <div className="breed-info-value">{fullBreedInfo.diet.concentrate_kg_per_day} kg/day</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.diet.concentrate_kg} kg/day</div>
                                                     </div>
                                                     <div className="breed-info-item">
                                                         <div className="breed-info-label">Water</div>
-                                                        <div className="breed-info-value">{fullBreedInfo.diet.water_liters_per_day} L/day</div>
+                                                        <div className="breed-info-value">{fullBreedInfo.diet.water_liters} L/day</div>
                                                     </div>
                                                 </div>
 
@@ -470,9 +470,16 @@ function PredictPage() {
                                                 <div style={{ marginBottom: '1.5rem' }}>
                                                     <h5 style={{ fontSize: '0.85rem', textTransform: 'uppercase', color: 'var(--color-text-muted)', marginBottom: '0.5rem' }}>Feeding Schedule</h5>
                                                     <div style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', background: 'var(--color-bg-primary)', padding: '10px', borderRadius: 'var(--radius-sm)' }}>
-                                                        <div style={{ marginBottom: '4px' }}><strong>Morning:</strong> {fullBreedInfo.diet.feeding_schedule_morning}</div>
-                                                        <div style={{ marginBottom: '4px' }}><strong>Afternoon:</strong> {fullBreedInfo.diet.feeding_schedule_afternoon}</div>
-                                                        <div><strong>Evening:</strong> {fullBreedInfo.diet.feeding_schedule_evening}</div>
+                                                        {fullBreedInfo.diet.feeding_schedule && fullBreedInfo.diet.feeding_schedule.map((item, idx) => {
+                                                            const parts = item.split(':');
+                                                            const time = parts[0];
+                                                            const desc = parts.slice(1).join(':');
+                                                            return (
+                                                                <div key={idx} style={{ marginBottom: '4px' }}>
+                                                                    <strong>{time}{desc ? ':' : ''}</strong>{desc}
+                                                                </div>
+                                                            );
+                                                        })}
                                                     </div>
                                                 </div>
 
