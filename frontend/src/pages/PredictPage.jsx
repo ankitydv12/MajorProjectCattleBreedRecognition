@@ -655,19 +655,19 @@ function PredictPage() {
                                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px', marginBottom: '15px' }}>
                                                     <div style={{ padding: '12px', background: 'rgba(217, 119, 6, 0.1)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(217, 119, 6, 0.2)' }}>
                                                         <div style={{ fontSize: '0.8rem', color: '#b45309', fontWeight: 600, marginBottom: '5px' }}>DRY FODDER</div>
-                                                        <div style={{ fontSize: '0.9rem', color: 'var(--color-text-primary)' }}>{seasonalDiet.feed_requirements.dry_fodder}</div>
+                                                        <div style={{ fontSize: '0.9rem', color: 'var(--color-text-primary)' }}>{seasonalDiet.dry_fodder_kg}</div>
                                                     </div>
                                                     <div style={{ padding: '12px', background: 'rgba(16, 185, 129, 0.1)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
                                                         <div style={{ fontSize: '0.8rem', color: '#047857', fontWeight: 600, marginBottom: '5px' }}>GREEN FODDER</div>
-                                                        <div style={{ fontSize: '0.9rem', color: 'var(--color-text-primary)' }}>{seasonalDiet.feed_requirements.green_fodder}</div>
+                                                        <div style={{ fontSize: '0.9rem', color: 'var(--color-text-primary)' }}>{seasonalDiet.green_fodder_kg}</div>
                                                     </div>
                                                     <div style={{ padding: '12px', background: 'rgba(139, 92, 246, 0.1)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(139, 92, 246, 0.2)' }}>
                                                         <div style={{ fontSize: '0.8rem', color: '#6d28d9', fontWeight: 600, marginBottom: '5px' }}>CONCENTRATE</div>
-                                                        <div style={{ fontSize: '0.9rem', color: 'var(--color-text-primary)' }}>{seasonalDiet.feed_requirements.concentrate}</div>
+                                                        <div style={{ fontSize: '0.9rem', color: 'var(--color-text-primary)' }}>{seasonalDiet.concentrate_kg}</div>
                                                     </div>
                                                     <div style={{ padding: '12px', background: 'rgba(59, 130, 246, 0.1)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(59, 130, 246, 0.2)' }}>
                                                         <div style={{ fontSize: '0.8rem', color: '#1d4ed8', fontWeight: 600, marginBottom: '5px' }}>WATER</div>
-                                                        <div style={{ fontSize: '0.9rem', color: 'var(--color-text-primary)' }}>{seasonalDiet.feed_requirements.water}</div>
+                                                        <div style={{ fontSize: '0.9rem', color: 'var(--color-text-primary)' }}>{seasonalDiet.water_liters}</div>
                                                     </div>
                                                 </div>
 
