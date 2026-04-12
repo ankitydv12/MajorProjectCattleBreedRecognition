@@ -97,6 +97,41 @@ async def lifespan(app: FastAPI):
                 ('Difficulty breathing', 'Hemorrhagic Septicemia', 'Critical',
                  'Emergency vet care immediately', 'Annual HS vaccination');
             """))
+
+        db.execute(text("""
+            CREATE TABLE IF NOT EXISTS seasonal_diet (
+                id SERIAL PRIMARY KEY,
+                breed_name VARCHAR(100) NOT NULL,
+                season VARCHAR(20) NOT NULL,
+                dry_fodder_kg VARCHAR(50),
+                green_fodder_kg VARCHAR(50),
+                concentrate_kg VARCHAR(50),
+                water_liters VARCHAR(50),
+                special_fodder TEXT,
+                management_tips TEXT,
+                health_alerts TEXT
+            );
+        """))
+
+        count_diet = db.execute(text("SELECT COUNT(*) FROM seasonal_diet")).scalar()
+        if count_diet == 0:
+            breeds = [
+                "Gir", "Sahiwal", "Tharparkar", "Rathi", "Kankrej", "Deoni",
+                "Hallikar", "Amritmahal", "Kangayam", "Alambadi", "Bargur",
+                "Pulikulam", "Dangi", "Nimari", "Nagori", "Kherigarh",
+                "Kenkatha", "Kasaragod", "Malnad Gidda", "Umblachery",
+                "Banni", "Jaffrabadi", "Mehsana", "Nagpuri", "Nili Ravi", "Shurti"
+            ]
+
+            data = []
+            for breed in breeds:
+                data.append(f"('{breed}', 'summer', '5-7', '20-25', '3-5', '60-80', 'Napier grass, Maize', 'Reduce outdoor time 11am-4pm, provide shade', 'Watch for heat stress, check water intake')")
+                data.append(f"('{breed}', 'monsoon', '6-8', '15-20', '2-4', '40-50', 'Sorghum, dry hay', 'Ensure dry shelter, anti-tick treatment', 'Watch for foot rot, bloat risk from wet grass')")
+                data.append(f"('{breed}', 'winter', '8-10', '15-20', '4-6', '35-45', 'Wheat straw, dry fodder', 'Provide warm shelter, extra concentrate for energy', 'Watch for pneumonia, respiratory issues')")
+
+            insert_stmt = "INSERT INTO seasonal_diet (breed_name, season, dry_fodder_kg, green_fodder_kg, concentrate_kg, water_liters, special_fodder, management_tips, health_alerts) VALUES " + ", ".join(data) + ";"
+            db.execute(text(insert_stmt))
+
         db.commit()
     except Exception as e:
         logger.error(f"Error creating/populating symptoms_lookup table: {e}")
