@@ -8,7 +8,7 @@ BUGS FIXED:
 */
 import { useTranslation } from 'react-i18next';
 import { useState, useRef, useCallback } from 'react';
-import { predictFromFile, predictFromURL, predictFromBase64, getBreedFull } from '../services/api';
+import { predictFromFile, predictFromURL, predictFromBase64, getBreedFull, getSeasonalDiet } from '../services/api';
 import { usePredictionHistory } from '../hooks/usePredictionHistory';
 
 function PredictPage() {
@@ -44,6 +44,13 @@ function PredictPage() {
 
 
     const fileInputRef = useRef(null);
+
+    const detectSeason = () => {
+        const month = new Date().getMonth() + 1;
+        if (month >= 3 && month <= 6) return 'summer';
+        if (month >= 7 && month <= 10) return 'monsoon';
+        return 'winter';
+    };
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
     const streamRef = useRef(null);
