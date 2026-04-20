@@ -21,6 +21,17 @@ services:
     networks:
       - cattle-network
 
+  ollama:
+    image: ollama/ollama:latest
+    container_name: cattle-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    networks:
+      - cattle-network
+
   backend:
     build:
       context: .
@@ -41,6 +52,7 @@ services:
       - ./data:/app/data
     depends_on:
       - db
+      - ollama
     restart: unless-stopped
     networks:
       - cattle-network
@@ -60,3 +72,4 @@ services:
 
 volumes:
   postgres_data:
+  ollama_data:
