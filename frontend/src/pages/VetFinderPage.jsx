@@ -70,9 +70,16 @@ function VetFinderPage() {
         setLoading(false);
       },
       (err) => {
-        setError('Location access denied. Please enter a city manually.');
+        console.error("Geolocation error:", err);
+        let errorMsg = "Location access denied.";
+        if (err.code === 1) errorMsg = "Location access denied by browser. (Note: Geolocation requires HTTPS or localhost)";
+        else if (err.code === 2) errorMsg = "Position unavailable. Your device couldn't determine its location.";
+        else if (err.code === 3) errorMsg = "Location request timed out.";
+        
+        setError(`${errorMsg} Please enter a city manually.`);
         setLoading(false);
-      }
+      },
+      { timeout: 15000, enableHighAccuracy: true, maximumAge: 0 }
     );
   };
 
